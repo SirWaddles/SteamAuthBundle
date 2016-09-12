@@ -1,0 +1,26 @@
+{
+    "name": "sirwaddles/steamauth",
+    "description": "Steam Authentication for Symfony",
+    "keywords": ["Steam", "User management"],
+    "license": "MIT",
+    "type": "symfony-bundle",
+    "homepage": "https://github.com/SirWaddles/SteamAuthBundle",
+    "authors": [
+        {
+            "name": "Waddles",
+            "email": "site@sirwaddlesworth.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SteamAuthBundle\\": ""
+        }
+    },
+    "require": {
+        "php": ">=5.5.9",
+        "symfony/symfony": "3.1.*",
+        "doctrine/orm": "^2.5",
+        "doctrine/doctrine-bundle": "^1.6",
+        "eightpoints/guzzle-bundle": "^5.0"
+    }
+}
