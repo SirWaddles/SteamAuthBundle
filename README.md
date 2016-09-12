@@ -1,7 +1,7 @@
 # SteamAuthBundle
 Steam Authentication for Symfony
 
-## Usage
+## Configuration and Usage
 A couple things are necessary for this bundle to work. Your user class will have to be managed by Doctrine ORM (does not support Mongo or Propel at the moment.) In the `app/config/config.yml` you will need the following parameters
 ```yml
 steam_auth:
@@ -38,4 +38,11 @@ main:
         default_route: home
     remember_me:
         secret: '%secret%'
+```
+
+## Login Template
+
+On your login page, you can either use your own form with the OpenID parameters, or include the SteamAuthBundle Template
+```twig
+{% include "SteamAuthBundle:Login:login.html.twig" %}
 ```
