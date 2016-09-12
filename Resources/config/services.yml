@@ -1,0 +1,19 @@
+services:
+    steam.user_provider:
+        class: SteamAuthBundle\Security\User\SteamUserProvider
+        arguments: [ '@doctrine.orm.default_entity_manager', '@guzzle.client.steam_user', '%steam_auth.steam_key%', '%steam_auth.user_class%' ]
+
+    steam.security.authentication.provider:
+        class: SteamAuthBundle\Security\Authentication\SteamProvider
+        arguments: [ '@steam.user_provider', '@guzzle.client.steam' ]
+        public: false
+
+    steam.security.authentication.listener:
+        class: SteamAuthBundle\Security\Firewall\SteamListener
+        arguments: [ 'home', '@security.token_storage', '@security.authentication.manager', '@router' ]
+        public: false
+
+    steam.security.authentication.entry_point:
+        class: SteamAuthBundle\Security\EntryPoint\SteamEntryPoint
+        arguments: [ '@security.http_utils' ]
+        public: false

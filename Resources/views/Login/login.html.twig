@@ -1,0 +1,9 @@
+<form method="post" action="http://steamcommunity.com/openid/login">
+    <input type="hidden" name="openid.ns" value="http://specs.openid.net/auth/2.0">
+    <input type="hidden" name="openid.mode" value="checkid_setup">
+    <input type="hidden" name="openid.identity" value="http://specs.openid.net/auth/2.0/identifier_select">
+    <input type="hidden" name="openid.claimed_id" value="http://specs.openid.net/auth/2.0/identifier_select">
+    <input type="hidden" name="openid.return_to" value="{{ url('login_check') }}">
+    <input type="hidden" name="openid.realm" value="{{ url('login_check') }}">
+    <button type="submit"><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" /></button>
+</form>
