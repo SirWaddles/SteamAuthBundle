@@ -1,7 +1,7 @@
 services:
     steam.user_provider:
         class: SteamAuthBundle\Security\User\SteamUserProvider
-        arguments: [ '@doctrine.orm.default_entity_manager', '@guzzle.client.steam_user', '%steam_auth.steam_key%', '%steam_auth.user_class%' ]
+        arguments: [ '@doctrine.orm.default_entity_manager', '@steam.user_serivce', '%steam_auth.user_class%' ]
 
     steam.security.authentication.provider:
         class: SteamAuthBundle\Security\Authentication\SteamProvider
@@ -17,3 +17,7 @@ services:
         class: SteamAuthBundle\Security\EntryPoint\SteamEntryPoint
         arguments: [ '@security.http_utils' ]
         public: false
+
+    steam.user_service:
+        class: SteamAuthBundle\Service\SteamUserService
+        arguments: [ '@guzzle.client.steam_user', '%steam_auth.steam_key%' ]
