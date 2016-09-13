@@ -28,8 +28,8 @@ class SteamUserService
     public function updateUserEntry(SteamUserInterface $user)
     {
         $userdata = $this->getUserData($user->getUsername());
-        $user->setNickname($data['personaname']);
-        $user->setAvatar($data['avatar']);
+        $user->setNickname($userdata['personaname']);
+        $user->setAvatar($userdata['avatar']);
         return $user;
     }
 }

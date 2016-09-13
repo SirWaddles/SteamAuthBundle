@@ -1,7 +1,7 @@
 services:
     steam.user_provider:
         class: SteamAuthBundle\Security\User\SteamUserProvider
-        arguments: [ '@doctrine.orm.default_entity_manager', '@steam.user_serivce', '%steam_auth.user_class%' ]
+        arguments: [ '@doctrine.orm.default_entity_manager', '@steam.user_service', '%steam_auth.user_class%' ]
 
     steam.security.authentication.provider:
         class: SteamAuthBundle\Security\Authentication\SteamProvider
