@@ -30,6 +30,7 @@ class SteamUserProvider implements UserProviderInterface
         if (!$user) {
             $user = new $this->userClass();
             $user->setUsername($username);
+            $user->setPassword(base64_encode(random_bytes(20)));
             $this->userService->updateUserEntry($user);
 
             $this->em->persist($user);

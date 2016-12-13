@@ -27,6 +27,13 @@ interface SteamUserInterface
     public function setUsername($username);
 
     /**
+     * Sets the password.
+     *
+     * @param string $password
+     */
+    public function setPassword($password);
+
+    /**
      * Returns the url to the avatar of the user.
      *
      * @return string The avatar url
