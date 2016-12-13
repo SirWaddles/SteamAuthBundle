@@ -28,13 +28,13 @@ class SteamProvider implements AuthenticationProviderInterface
         $checkAuth = $token->getAttributes();
         $checkAuth['openid.mode'] = 'check_authentication';
         $response = $this->guzzle->request('GET', 'login', ['query' => $checkAuth]);
+        
         if ((string)$response->getBody() == "ns:http://specs.openid.net/auth/2.0\nis_valid:true\n") {
             $user = $this->userProvider->loadUserByUsername($token->getUsername());
             $token->setUser($user);
             $token->setAuthenticated(true);
-            return $token;
         }
-        //throw new AuthenticationException('Logic Error');
+
         return $token;
     }
 

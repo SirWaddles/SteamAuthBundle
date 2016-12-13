@@ -50,7 +50,9 @@ class SteamListener implements ListenerInterface
     public function handle(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-        if ($request->get('_route') != 'login_check') return;
+        if ($request->get('_route') != 'login_check') {
+            return;
+        }
 
         $token = new SteamToken();
         $token->setUsername(str_replace("http://steamcommunity.com/openid/id/", "", $request->query->get('openid_claimed_id')));
@@ -73,11 +75,9 @@ class SteamListener implements ListenerInterface
             }
             $event->setResponse($response);
             return;
+            
         } catch (AuthenticationException $e) {
-            // I dunno lol
+           throw new AuthenticationException($e->getMessage());
         }
-
-        $response = new RedirectResponse('/login');
-        $event->setResponse($response);
     }
 }
