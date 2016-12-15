@@ -2,7 +2,18 @@
 Steam Authentication for Symfony
 
 ## Configuration and Usage
-A couple things are necessary for this bundle to work. Your user class will have to be managed by Doctrine ORM (does not support Mongo or Propel at the moment.) In the `app/config/config.yml` you will need the following parameters
+A couple things are necessary for this bundle to work. Your user class will have to be managed by Doctrine ORM (does not support Mongo or Propel at the moment.)
+At first, add the EightPoints GuzzleBundle and the SteamAuthBundle to your AppKernel.php
+```php
+$bundles = [
+...
+new EightPoints\Bundle\GuzzleBundle\GuzzleBundle(),
+new SteamAuthBundle\SteamAuthBundle()
+...
+];
+```
+
+In the `app/config/config.yml` you will need the following parameters
 ```yml
 steam_auth:
     steam_key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -22,6 +33,7 @@ security:
 
     firewalls:
         main:
+            provider: steamauth
             steam:
                 default_route: home
 ```

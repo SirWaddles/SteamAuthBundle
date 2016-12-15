@@ -50,34 +50,30 @@ class SteamListener implements ListenerInterface
     public function handle(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-        if ($request->get('_route') != 'login_check') return;
+        if ($request->get('_route') != 'login_check') {
+            return;
+        }
 
         $token = new SteamToken();
         $token->setUsername(str_replace("http://steamcommunity.com/openid/id/", "", $request->query->get('openid_claimed_id')));
         $token->setAttributes($request->query->all());
 
-        try {
-            $authToken = $this->authenticationManager->authenticate($token);
-            $this->tokenStorage->setToken($authToken);
+        $authToken = $this->authenticationManager->authenticate($token);
+        $this->tokenStorage->setToken($authToken);
 
-            $targetPath = $this->getTargetPath($request->getSession(), $this->providerKey);
-            if ($targetPath !== null) {
-                $this->removeTargetPath($request->getSession(), $this->providerKey);
-            } else {
-                $targetPath = $this->router->generate($this->defaultRoute);
-            }
-
-            $response = new RedirectResponse($targetPath);
-            if ($this->rememberMeServices !== null) {
-                $this->rememberMeServices->loginSuccess($request, $response, $token);
-            }
-            $event->setResponse($response);
-            return;
-        } catch (AuthenticationException $e) {
-            // I dunno lol
+        $targetPath = $this->getTargetPath($request->getSession(), $this->providerKey);
+        if ($targetPath !== null) {
+            $this->removeTargetPath($request->getSession(), $this->providerKey);
+        } else {
+            $targetPath = $this->router->generate($this->defaultRoute);
         }
 
-        $response = new RedirectResponse('/login');
+        $response = new RedirectResponse($targetPath);
+        if ($this->rememberMeServices !== null) {
+            $this->rememberMeServices->loginSuccess($request, $response, $token);
+        }
         $event->setResponse($response);
+        
+        return;
     }
 }

@@ -26,17 +26,18 @@ class SteamUserProvider implements UserProviderInterface
     {
         $userRepo = $this->em->getRepository($this->userClass);
         $user = $userRepo->findOneBy(['username' => $username]);
-        if ($user) return $user;
 
-        $user = new $this->userClass();
-        $user->setUsername($username);
-        $this->userService->updateUserEntry($user);
-        $user->setPassword(base64_encode(random_bytes(20)));
-        $this->em->persist($user);
-        $this->em->flush($user);
+        if (!$user) {
+            $user = new $this->userClass();
+            $user->setUsername($username);
+            $user->setPassword(base64_encode(random_bytes(20)));
+            $this->userService->updateUserEntry($user);
+
+            $this->em->persist($user);
+            $this->em->flush($user);
+        }
+
         return $user;
-
-        throw new UsernameNotFoundException("Username does not exist");
     }
 
     public function refreshUser(UserInterface $user)
