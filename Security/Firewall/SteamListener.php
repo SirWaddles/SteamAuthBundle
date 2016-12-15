@@ -58,26 +58,22 @@ class SteamListener implements ListenerInterface
         $token->setUsername(str_replace("http://steamcommunity.com/openid/id/", "", $request->query->get('openid_claimed_id')));
         $token->setAttributes($request->query->all());
 
-        try {
-            $authToken = $this->authenticationManager->authenticate($token);
-            $this->tokenStorage->setToken($authToken);
+        $authToken = $this->authenticationManager->authenticate($token);
+        $this->tokenStorage->setToken($authToken);
 
-            $targetPath = $this->getTargetPath($request->getSession(), $this->providerKey);
-            if ($targetPath !== null) {
-                $this->removeTargetPath($request->getSession(), $this->providerKey);
-            } else {
-                $targetPath = $this->router->generate($this->defaultRoute);
-            }
-
-            $response = new RedirectResponse($targetPath);
-            if ($this->rememberMeServices !== null) {
-                $this->rememberMeServices->loginSuccess($request, $response, $token);
-            }
-            $event->setResponse($response);
-            return;
-            
-        } catch (AuthenticationException $e) {
-           throw new AuthenticationException($e->getMessage());
+        $targetPath = $this->getTargetPath($request->getSession(), $this->providerKey);
+        if ($targetPath !== null) {
+            $this->removeTargetPath($request->getSession(), $this->providerKey);
+        } else {
+            $targetPath = $this->router->generate($this->defaultRoute);
         }
+
+        $response = new RedirectResponse($targetPath);
+        if ($this->rememberMeServices !== null) {
+            $this->rememberMeServices->loginSuccess($request, $response, $token);
+        }
+        $event->setResponse($response);
+        
+        return;
     }
 }
