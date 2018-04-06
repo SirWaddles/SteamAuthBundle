@@ -55,7 +55,10 @@ class SteamListener implements ListenerInterface
         }
 
         $token = new SteamToken();
-        $token->setUsername(str_replace("http://steamcommunity.com/openid/id/", "", $request->query->get('openid_claimed_id')));
+        $username = $request->query->get('openid_claimed_id');
+        $username = str_replace("http://steamcommunity.com/openid/id/", "", $username);
+        $username = str_replace("https://steamcommunity.com/openid/id/", "", $username);
+        $token->setUsername($username);
         $token->setAttributes($request->query->all());
 
         $authToken = $this->authenticationManager->authenticate($token);
